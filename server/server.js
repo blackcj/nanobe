@@ -20,15 +20,16 @@ server.on('request', (request, response) => {
     const parts = url.parse(request.url);
     const route = routes[parts.pathname];
     const sanitizePath = path.normalize(parts.pathname).replace(/^(\.\.[\/\\])+/, '');
-    let pathname = path.join(__dirname, sanitizePath);
 
+    let pathname = path.join(__dirname, PUBLIC_FOLDER, sanitizePath);
     // check if the path exists
     if (fs.existsSync(pathname)) {
-        pathname = path.join(__dirname, PUBLIC_FOLDER, sanitizePath);
         // if is a directory, then look for index.html
         if (fs.statSync(pathname).isDirectory()) {
             pathname += '/index.html';
         }
+    } else {
+        pathname = path.join(__dirname, sanitizePath);
     }
     // check if the file exists
     if (fs.existsSync(pathname)) {
@@ -41,7 +42,7 @@ server.on('request', (request, response) => {
                 // based on the URL path, extract the file extention. e.g. .js, .doc, ...
                 const ext = path.parse(pathname).ext;
                 // Used for live refresh of the browser in development mode
-                if(process.send && pathname.indexOf('index.html') >= 0) {
+                if (process.send && pathname.indexOf('index.html') >= 0) {
                     const bodyIndex = data.lastIndexOf('</body>');
                     const refreshScript = `<script src="${process.env.BROWSER_REFRESH_URL}"></script>`;
                     data = utils.insert(data.toString(), bodyIndex, refreshScript);
@@ -63,7 +64,7 @@ server.on('listening', function () {
     // Used for auto refreshing the browser when JS code is modified
     if (process.send) {
         console.log('Launching browser...');
-        process.send({ event:'online', url:`http://localhost:${PORT}/` });
+        process.send({ event: 'online', url: `http://localhost:${PORT}/` });
     }
 });
 
