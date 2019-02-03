@@ -20,15 +20,16 @@ server.on('request', (request, response) => {
     const parts = url.parse(request.url);
     const route = routes[parts.pathname];
     const sanitizePath = path.normalize(parts.pathname).replace(/^(\.\.[\/\\])+/, '');
-    let pathname = path.join(__dirname, sanitizePath);
 
+    let pathname = path.join(__dirname, PUBLIC_FOLDER, sanitizePath);
     // check if the path exists
     if (fs.existsSync(pathname)) {
-        pathname = path.join(__dirname, PUBLIC_FOLDER, sanitizePath);
         // if is a directory, then look for index.html
         if (fs.statSync(pathname).isDirectory()) {
             pathname += '/index.html';
         }
+    } else {
+        pathname = path.join(__dirname, sanitizePath);
     }
     // check if the file exists
     if (fs.existsSync(pathname)) {
