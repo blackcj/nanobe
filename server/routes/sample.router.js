@@ -1,7 +1,7 @@
 const utils = require('./../utilities');
 const actions = {
     'GET': (request, response) => {
-        utils.sendResponse(response, 'Hello World', 200, { 'Content-Type': 'text/plain' });
+        utils.sendResponse(response, 'Hello World!', 200, { 'Content-Type': 'text/plain' });
     },
     'POST': (request, response) => {
         utils.collectData(request, (formattedData) => {

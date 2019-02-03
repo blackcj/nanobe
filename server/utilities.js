@@ -14,6 +14,10 @@ exports.collectData = (request, callback) => {
     });
 };
 
+exports.insert = (str, index, value) => {
+    return str.substr(0, index) + value + str.substr(index);
+}
+
 exports.mimetypes = {
     '.ico': 'image/x-icon',
     '.html': 'text/html',
