@@ -1,4 +1,13 @@
 exports.sendResponse = (response, data, statusCode, headers) => {
+    if (typeof data === 'function') {
+        // We shouldn't be sending back functions
+        response.writeHead(500, headers);
+        response.end('Error');
+    }
+    // Convert non-strings to strings (.end requires a string or string buffer) 
+    if (typeof data !== 'string') {
+        data = JSON.stringify(data);
+    }
     response.writeHead(statusCode, headers);
     response.end(data);
 };
