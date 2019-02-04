@@ -5,7 +5,7 @@ exports.sendResponse = (response, data, statusCode, headers) => {
         response.end('Error');
     }
     // Convert non-strings to strings (.end requires a string or string buffer) 
-    if (typeof data !== 'string') {
+    if (typeof data !== 'string' && !(data instanceof Buffer)) {
         data = JSON.stringify(data);
     }
     response.writeHead(statusCode, headers);
