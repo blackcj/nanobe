@@ -4,6 +4,7 @@ const server = require('../server/server');
 const chaiFiles = require('chai-files');
 const expect = chai.expect;
 const file = chaiFiles.file;
+const should = chai.should();
 
 chai.use(chaiFiles);
 chai.use(chaiHttp);
@@ -43,12 +44,21 @@ describe('test main server file', function () {
                 done();
             });
     });
-    it('should NOT return files outside of public', function (done) {
+    it('should NOT return files in the root directory', function (done) {
         chai.request(server)
             .get('/../../README.md')
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(file('README.md')).to.not.equal(res.text);
+                done();
+            });
+    });
+    it('should NOT return server/server.js', function (done) {
+        chai.request(server)
+            .get('/../server/server.js')
+            .end((err, res) => {
+                res.should.have.status(404);
+                expect(file('server/server.js')).to.not.equal(res.text);
                 done();
             });
     });

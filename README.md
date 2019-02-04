@@ -35,3 +35,4 @@ A few global dependencies are needed to allow for live reload and JavaScript imp
 - https://adrianmejia.com/blog/2016/08/24/building-a-node-js-static-file-server-files-over-http-using-es6/
 - https://medium.com/@grantspilsbury/dry-node-js-server-code-without-express-4db391a9ac60
 - https://nodejs.org/api/fs.html#fs_fs_access_path_mode_callback
+- https://mherman.org/blog/testing-node-js-with-mocha-and-chai/
