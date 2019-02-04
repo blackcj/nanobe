@@ -30,7 +30,7 @@ class SimpleServer {
             const sanitizePath = path.normalize(parts.pathname).replace(/^(\.\.[\/\\])+/, '');
 
             let pathname = path.join(rootPath, this.staticFolder, sanitizePath);
-            
+            let isStaticFile = true;
             // check if the path exists
             if (this.staticFolder != '' && fs.existsSync(pathname)) {
                 // if is a directory, then look for index.html
@@ -38,11 +38,14 @@ class SimpleServer {
                     pathname = path.join(pathname, '/index.html');
                 }
             } else {
+                isStaticFile = false;
                 pathname = path.join(rootPath, sanitizePath);
             }
-            console.log(`Looking for path ${pathname}`)
+            console.log(`Looking for path ${sanitizePath}`);
+            pathname = path.normalize(pathname).replace(/^(\.\.[\/\\])+/, '');
+            console.log(`Looking for path ${pathname}`);
             // check if the file exists
-            if (this.staticFolder != '' && fs.existsSync(pathname)) {
+            if (isStaticFile && this.staticFolder != '' && fs.existsSync(pathname)) {
                 this.sendFile(pathname, response);
             } else if (route) {
                 route(request, response);
