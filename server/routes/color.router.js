@@ -1,7 +1,7 @@
 const utils = require('../modules/utilities');
 const actions = {
     'GET': (request, response) => {
-        utils.sendResponse(response, ['blue', 'green', 'yellow'], 200, { 'Content-Type': 'text/plain' });
+        utils.sendResponse(response, ['blue', 'green', 'yellow'], 200, { 'Content-Type': 'application/json' });
     },
 };
 

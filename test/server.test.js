@@ -10,22 +10,8 @@ chai.use(chaiFiles);
 chai.use(chaiHttp);
 
 describe('test main server file', function () {
-    it('should list ALL colors on /color GET', function (done) {
-        chai.request(server)
-            .get('/color')
-            .end((err, res) => {
-                res.should.have.status(200);
-                done();
-            });
-    });
-    it('should 404 on a random page', function (done) {
-        chai.request(server)
-            .get('/somerandomlocation')
-            .end((err, res) => {
-                res.should.have.status(404);
-                done();
-            });
-    });
+
+    // FILE DOWNLOAD
     it('should correctly download a *.js file', function (done) {
         chai.request(server)
             .get('/scripts/test.js')
@@ -46,6 +32,18 @@ describe('test main server file', function () {
                 done();
             });
     });
+
+    // ROUTES
+    it('should list ALL colors on /color GET', function (done) {
+        chai.request(server)
+            .get('/color')
+            .end((err, res) => {
+                expect(res).to.have.header('content-type', 'application/json');
+                res.should.have.status(200);
+                expect(res.body[0]).to.equal('blue');
+                done();
+            });
+    });
     it('should accept POST data', function (done) {
         chai.request(server)
             .post('/sample')
@@ -59,6 +57,8 @@ describe('test main server file', function () {
                 done();
             });
     });
+
+    // QUERY PARAMS
     it('should accept query parameters', function (done) {
         chai.request(server)
             .get('/sample?a=1&b=2')
@@ -67,6 +67,25 @@ describe('test main server file', function () {
                 expect(res).to.have.header('content-type', 'application/json');
                 expect(res.body.data.a).to.equal('1');
                 expect(res.body.data.b).to.equal('2');
+                done();
+            });
+    });
+    it('should accept empty query parameters', function (done) {
+        chai.request(server)
+            .get('/sample')
+            .end((err, res) => {
+                res.should.have.status(200);
+                expect(res).to.have.header('content-type', 'application/json');
+                done();
+            });
+    });
+
+    // FORBIDDEN FILES
+    it('should 404 on a random page', function (done) {
+        chai.request(server)
+            .get('/somerandomlocation')
+            .end((err, res) => {
+                res.should.have.status(404);
                 done();
             });
     });
