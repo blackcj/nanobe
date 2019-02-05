@@ -4,6 +4,8 @@ Node modules tend to be a black hole. This is a bare-bones Node.js server with r
 
 ## Setup
 
+- `npm install` is required to install [Chai](https://www.chaijs.com/) for running tests.
+
 ### Global Dependencies
 
 A few global dependencies are needed to allow for live reload and JavaScript imports on the client.
@@ -18,14 +20,22 @@ A few global dependencies are needed to allow for live reload and JavaScript imp
 - `npm run client` _to start watching files in the `src` directory_
 - `npm run server` _to start the auto loading server_
 
+### Testing
+
+1. Stop the server
+2. `npm test`
+
 ## Features
 
 - Request body parsed in `utilities.js`
 - When requesting a folder, the server looks for `index.html` by default
 - If a matching file is not found in the `public` folder, all routes are checked
+- Unit testing for core features
+- Ability to parse query parameters in `utilites.js`
 
 ## Future Plans
 
+- [ ] Route parameters
 - [ ] Additional testing
 - [ ] Middleware support
 - [ ] Security audit
@@ -36,3 +46,4 @@ A few global dependencies are needed to allow for live reload and JavaScript imp
 - https://medium.com/@grantspilsbury/dry-node-js-server-code-without-express-4db391a9ac60
 - https://nodejs.org/api/fs.html#fs_fs_access_path_mode_callback
 - https://mherman.org/blog/testing-node-js-with-mocha-and-chai/
+- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework

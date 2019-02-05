@@ -41,9 +41,7 @@ class SimpleServer {
                 isStaticFile = false;
                 pathname = path.join(rootPath, sanitizePath);
             }
-            console.log(`Looking for path ${sanitizePath}`);
             pathname = path.normalize(pathname).replace(/^(\.\.[\/\\])+/, '');
-            console.log(`Looking for path ${pathname}`);
             // check if the file exists
             if (isStaticFile && this.staticFolder != '' && fs.existsSync(pathname)) {
                 this.sendFile(pathname, response);
