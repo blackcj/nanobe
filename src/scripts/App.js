@@ -16,10 +16,11 @@ class App extends Component {
   getDataFromServer = () => {
     axios({
       method: 'GET',
-      url: '/sample'
+      url: '/sample?a=1'
     }).then(response => {
       this.setState({
-        data: response.data,
+        // .data for axios and .data for what is returned from the server
+        data: response.data.data,
       });
     }).catch(error => {
       console.log(error);
@@ -30,7 +31,7 @@ class App extends Component {
     return (
       <div>
         <h1>Simple Server with React</h1>
-        <p>Data: {this.state.data}</p>
+        <p>Data: {JSON.stringify(this.state.data)}</p>
       </div>
     );
   }

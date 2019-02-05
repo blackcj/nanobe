@@ -25194,10 +25194,11 @@ function (_Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "getDataFromServer", function () {
       (0, _axios.default)({
         method: 'GET',
-        url: '/sample'
+        url: '/sample?a=1'
       }).then(function (response) {
         _this.setState({
-          data: response.data
+          // .data for axios and .data for what is returned from the server
+          data: response.data.data
         });
       }).catch(function (error) {
         console.log(error);
@@ -25218,7 +25219,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement("h1", null, "Simple Server with React"), _react.default.createElement("p", null, "Data: ", this.state.data));
+      return _react.default.createElement("div", null, _react.default.createElement("h1", null, "Simple Server with React"), _react.default.createElement("p", null, "Data: ", JSON.stringify(this.state.data)));
     }
   }]);
 

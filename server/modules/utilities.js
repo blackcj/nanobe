@@ -17,7 +17,11 @@ exports.sendResponse = (response, data, statusCode, headers) => {
 // Pull query params from the request
 exports.parseQueryParams = (request, callback) => {
     const parts = url.parse(request.url);
-    const query = JSON.parse('{"' + decodeURI(parts.query).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+    let query = {};
+    console.log(parts.query != null);
+    if(parts.query) {
+        query = JSON.parse('{"' + decodeURI(parts.query).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+    }
     callback(query);
 }
 
