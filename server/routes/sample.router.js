@@ -1,12 +1,14 @@
 const utils = require('../modules/utilities');
 const actions = {
     'GET': (request, response) => {
-        utils.sendResponse(response, 'Hello World!', 200, { 'Content-Type': 'text/plain' });
+        utils.parseQueryParams(request, query => {
+            utils.sendResponse(response, { data: query }, 200, { 'Content-Type': 'application/json' });
+        })
     },
     'POST': (request, response) => {
         utils.collectData(request, (formattedData) => {
-            console.log('POST data', JSON.parse(formattedData));
-            utils.sendResponse(response, 'Success', 200, { 'Content-Type': 'text/plain' });
+            const data = {data: formattedData, message: 'Success'};
+            utils.sendResponse(response, data, 201, { 'Content-Type': 'application/json' });
         });
     }
 };

@@ -4,8 +4,8 @@ const server = require('../server/server');
 const chaiFiles = require('chai-files');
 const expect = chai.expect;
 const file = chaiFiles.file;
-const should = chai.should();
 
+chai.should();
 chai.use(chaiFiles);
 chai.use(chaiHttp);
 
@@ -31,6 +31,7 @@ describe('test main server file', function () {
             .get('/scripts/test.js')
             .end((err, res) => {
                 res.should.have.status(200);
+                expect(res).to.have.header('content-type', 'text/javascript');
                 expect(file('server/public/scripts/test.js')).to.equal(res.text);
                 done();
             });
@@ -40,7 +41,32 @@ describe('test main server file', function () {
             .get('/index.html')
             .end((err, res) => {
                 res.should.have.status(200);
+                expect(res).to.have.header('content-type', 'text/html');
                 expect(file('server/public/index.html')).to.equal(res.text);
+                done();
+            });
+    });
+    it('should accept POST data', function (done) {
+        chai.request(server)
+            .post('/sample')
+            .set('content-type', 'application/json')
+            .send({ abc: '123' })
+            .end((err, res) => {
+                res.should.have.status(201);
+                expect(res).to.have.header('content-type', 'application/json');
+                expect(res.body.message).to.equal('Success');
+                expect(res.body.data.abc).to.equal('123');
+                done();
+            });
+    });
+    it('should accept query parameters', function (done) {
+        chai.request(server)
+            .get('/sample?a=1&b=2')
+            .end((err, res) => {
+                res.should.have.status(200);
+                expect(res).to.have.header('content-type', 'application/json');
+                expect(res.body.data.a).to.equal('1');
+                expect(res.body.data.b).to.equal('2');
                 done();
             });
     });

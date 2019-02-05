@@ -1,3 +1,5 @@
+const url = require('url');
+
 exports.sendResponse = (response, data, statusCode, headers) => {
     if (typeof data === 'function') {
         // We shouldn't be sending back functions
@@ -12,17 +14,25 @@ exports.sendResponse = (response, data, statusCode, headers) => {
     response.end(data);
 };
 
-// Replaces body-parser
+// Pull query params from the request
+exports.parseQueryParams = (request, callback) => {
+    const parts = url.parse(request.url);
+    const query = JSON.parse('{"' + decodeURI(parts.query).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+    callback(query);
+}
+
+// Pull data from the request
 exports.collectData = (request, callback) => {
     var data = '';
     request.on('data', (chunk) => {
         data += chunk;
     });
     request.on('end', () => {
-        callback(data);
+        callback(JSON.parse(data));
     });
 };
 
+// Insert a string at a specfic location in a string
 exports.insert = (str, index, value) => {
     return str.substr(0, index) + value + str.substr(index);
 }

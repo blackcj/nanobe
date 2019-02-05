@@ -4,6 +4,8 @@ Node modules tend to be a black hole. This is a bare-bones Node.js server with r
 
 ## Setup
 
+- `npm install` is required to install [Chai](https://www.chaijs.com/) for running tests.
+
 ### Global Dependencies
 
 A few global dependencies are needed to allow for live reload and JavaScript imports on the client.
@@ -18,6 +20,11 @@ A few global dependencies are needed to allow for live reload and JavaScript imp
 - `npm run client` _to start watching files in the `src` directory_
 - `npm run server` _to start the auto loading server_
 
+### Testing
+
+1. Stop the server
+2. `npm test`
+
 ## Features
 
 - Request body parsed in `utilities.js`
@@ -26,6 +33,8 @@ A few global dependencies are needed to allow for live reload and JavaScript imp
 
 ## Future Plans
 
+- [ ] Route parameters
+- [ ] Query parameters
 - [ ] Additional testing
 - [ ] Middleware support
 - [ ] Security audit
