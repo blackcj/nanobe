@@ -1,9 +1,15 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../server/server');
+const SimpleServer = require('../server/modules/simple.server');
+const app = new SimpleServer();
+const server = app.server;
 const chaiFiles = require('chai-files');
 const expect = chai.expect;
 const file = chaiFiles.file;
+const PORT = 5003;
+
+const sampleRouter = require('../server/routes/sample.router');
+const colorRouter = require('../server/routes/color.router');
 
 chai.should();
 chai.use(chaiFiles);
@@ -11,6 +17,12 @@ chai.use(chaiHttp);
 
 describe('test main server file', function () {
 
+    before(() => {
+        app.setStaticFolder('server/public');
+        app.use('/sample', sampleRouter);
+        app.use('/color', colorRouter);
+        app.listen(PORT);
+    });
     // FILE DOWNLOAD
     it('should correctly download a *.js file', function (done) {
         chai.request(server)

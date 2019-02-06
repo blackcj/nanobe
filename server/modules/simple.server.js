@@ -4,18 +4,20 @@ const fs = require('fs');
 const path = require('path');
 const utils = require('./utilities');
 const rootPath = require('../../root.path');
+const SimpleRouter = require('./simple.router');
 
 class SimpleServer {
     constructor() {
-        this.routes = {};
+        this.router = new SimpleRouter();
         this.staticFolder = '';
         this.server = http.createServer();
         this.callback;
         this.port;
+        this.SimpleRouter = SimpleRouter;
     }
 
     use(routePath, router) {
-        this.routes[routePath] = router;
+        this.router.use(routePath, router);
     }
 
     // Relative to the server folder.
@@ -26,7 +28,6 @@ class SimpleServer {
     addEventListeners(server) {
         server.on('request', (request, response) => {
             const parts = url.parse(request.url);
-            const route = this.routes[parts.pathname];
             const sanitizePath = path.normalize(parts.pathname).replace(/^(\.\.[\/\\])+/, '');
 
             let pathname = path.join(rootPath, this.staticFolder, sanitizePath);
@@ -45,10 +46,8 @@ class SimpleServer {
             // check if the file exists
             if (isStaticFile && this.staticFolder != '' && fs.existsSync(pathname)) {
                 this.sendFile(pathname, response);
-            } else if (route) {
-                route(request, response);
-            } else {
-                console.log('Could not find', pathname);
+            } else if (!this.router.route(sanitizePath, request, response)) {
+                // console.log('Could not find', pathname);
                 utils.sendResponse(response, "Not found", 404);
             }
         });
@@ -60,10 +59,10 @@ class SimpleServer {
                 process.send({ event: 'online', url: `http://localhost:${this.port}/` });
             }
 
-            if(this.callback) {
+            if (this.callback) {
                 this.callback();
             }
-            
+
         });
 
         server.on('error', (err) => {
@@ -93,7 +92,6 @@ class SimpleServer {
     }
 
     listen(port, callback) {
-        console.log('port', port);
         this.port = port;
         this.callback = callback;
         this.addEventListeners(this.server, this.staticFolder);
@@ -102,4 +100,3 @@ class SimpleServer {
 }
 
 module.exports = SimpleServer;
-
