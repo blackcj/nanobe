@@ -29,7 +29,7 @@ describe('test router', () => {
         done();
     });
 
-    it('should correctly route to nested router handler', done => {
+    it('should correctly route to nested router handler on /test', done => {
         const aRouter = new SimpleRouter();
         const bRouter = new SimpleRouter();
         let callbackWasRun = false;
@@ -44,7 +44,7 @@ describe('test router', () => {
         done();
     });
 
-    it('should correctly route to nested router handler', done => {
+    it('should correctly route to nested router handler on /', done => {
         const aRouter = new SimpleRouter();
         const bRouter = new SimpleRouter();
         let callbackWasRun = false;
@@ -59,7 +59,7 @@ describe('test router', () => {
         done();
     });
 
-    it('should not correctly route to extra path parts', done => {
+    it('should not route to extra path parts', done => {
         const aRouter = new SimpleRouter();
         const bRouter = new SimpleRouter();
         let callbackWasRun = false;
