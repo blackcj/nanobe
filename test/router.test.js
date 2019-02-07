@@ -72,8 +72,8 @@ describe('test router', () => {
         expect(callbackWasRun).to.equal(false);
         done();
     });
-    
-    it('should route correctly between GET and POST', done => {
+
+    it('should route correctly distinguish GET and POST', done => {
         const aRouter = new SimpleRouter();
         const bRouter = new SimpleRouter();
         let callbackWasRun = '';
