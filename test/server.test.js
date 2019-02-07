@@ -8,8 +8,7 @@ const expect = chai.expect;
 const file = chaiFiles.file;
 const PORT = 5003;
 
-const sampleRouter = require('../server/routes/sample.router');
-const colorRouter = require('../server/routes/color.router');
+const colorRouter = require('./routes/color.router');
 
 chai.should();
 chai.use(chaiFiles);
@@ -19,7 +18,6 @@ describe('test main server file', function () {
 
     before(() => {
         app.setStaticFolder('server/public');
-        app.use('/sample', sampleRouter);
         app.use('/color', colorRouter);
         app.listen(PORT);
     });
@@ -58,14 +56,14 @@ describe('test main server file', function () {
     });
     it('should accept POST data', function (done) {
         chai.request(server)
-            .post('/sample')
+            .post('/color')
             .set('content-type', 'application/json')
-            .send({ abc: '123' })
+            .send({ color: 'purple' })
             .end((err, res) => {
                 res.should.have.status(201);
                 expect(res).to.have.header('content-type', 'application/json');
                 expect(res.body.message).to.equal('Success');
-                expect(res.body.data.abc).to.equal('123');
+                expect(res.body.data.color).to.equal('purple');
                 done();
             });
     });
@@ -73,7 +71,7 @@ describe('test main server file', function () {
     // QUERY PARAMS
     it('should accept query parameters', function (done) {
         chai.request(server)
-            .get('/sample?a=1&b=2')
+            .get('/color/query?a=1&b=2')
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res).to.have.header('content-type', 'application/json');
@@ -84,7 +82,7 @@ describe('test main server file', function () {
     });
     it('should accept empty query parameters', function (done) {
         chai.request(server)
-            .get('/sample')
+            .get('/color')
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res).to.have.header('content-type', 'application/json');

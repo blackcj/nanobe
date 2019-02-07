@@ -72,4 +72,24 @@ describe('test router', () => {
         expect(callbackWasRun).to.equal(false);
         done();
     });
+    
+    it('should route correctly between GET and POST', done => {
+        const aRouter = new SimpleRouter();
+        const bRouter = new SimpleRouter();
+        let callbackWasRun = '';
+        bRouter.addHandler('/test', 'GET', (req, res) => {
+            callbackWasRun = 'GET';
+        });
+        bRouter.addHandler('/test', 'POST', (req, res) => {
+            callbackWasRun = 'POST';
+        });
+        aRouter.use('/test', bRouter);
+        let foundRoute = aRouter.route('/test/test', { method: 'POST' });
+        expect(foundRoute).to.equal(true);
+        expect(callbackWasRun).to.equal('POST');
+        foundRoute = aRouter.route('/test/test', { method: 'GET' });
+        expect(foundRoute).to.equal(true);
+        expect(callbackWasRun).to.equal('GET');
+        done();
+    });
 });

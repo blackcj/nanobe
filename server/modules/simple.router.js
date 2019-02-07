@@ -43,6 +43,7 @@ class SimpleRouter {
             } else {
                 currentPath += '/' + pathPart;
                 router = this.routes[currentPath];
+                // TODO: Handle route params
             }
         }
         if (path === '/' || path === '' || !router) {
