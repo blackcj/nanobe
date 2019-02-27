@@ -3,7 +3,7 @@ const Nanobe = require('..');
 const app = new Nanobe();
 const colorRouter = require('./routes/color.router');
 
-app.setStaticFolder('server/public');
+app.setStaticFolder('example/public');
 app.use('/color', colorRouter);
 
 app.listen(PORT, () => {
