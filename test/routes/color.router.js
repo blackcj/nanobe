@@ -1,24 +1,19 @@
-const utils = require('./../../server/modules/utilities');
-const SimpleRouter = require('./../../server/modules/simple.router');
+const SimpleRouter = require('../..').Router;
 const router = new SimpleRouter();
-const colors = ['blue', 'green', 'yellow'];
+const colors = ['Yellow', 'Purple', 'Orange'];
 
 router.addHandler('/', 'GET', (request, response) => {
-    utils.sendResponse(response, colors, 200, { 'Content-Type': 'application/json' });
+    response.send(colors);
 });
 
 router.addHandler('/query', 'GET', (request, response) => {
-    utils.parseQueryParams(request, query => {
-        utils.sendResponse(response, { data: query }, 200, { 'Content-Type': 'application/json' });
-    });
+    response.send({ data: request.query });
 });
 
 router.addHandler('/', 'POST', (request, response) => {
-    utils.collectData(request, formattedData => {
-        colors.push(formattedData.color);
-        const data = { data: formattedData, message: 'Success' };
-        utils.sendResponse(response, data, 201, { 'Content-Type': 'application/json' });
-    });
+    colors.push(request.body.color);
+    const data = { data: request.body, message: 'Success' };
+    response.send(data, 201);
 });
 
 module.exports = router;

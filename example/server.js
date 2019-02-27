@@ -1,6 +1,6 @@
 const PORT = process.env.PORT || 5002;
-const SimpleServer = require('./modules/simple.server');
-const app = new SimpleServer();
+const Nanobe = require('..');
+const app = new Nanobe();
 const colorRouter = require('./routes/color.router');
 
 app.setStaticFolder('server/public');

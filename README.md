@@ -6,20 +6,6 @@ Node modules tend to be a black hole. This is a bare-bones Node.js server with r
 
 - `npm install` is required to install [Chai](https://www.chaijs.com/) for running tests.
 
-### Global Dependencies
-
-A few global dependencies are needed to allow for live reload and JavaScript imports on the client.
-
-- node
-- [browserify](https://www.npmjs.com/package/browserify)
-- [watch](https://www.npmjs.com/package/watch)
-- [browser-refresh](https://www.npmjs.com/package/browser-refresh)
-
-### Starting the Project
-
-- `npm run client` _to start watching files in the `src` directory_
-- `npm run server` _to start the auto loading server_
-
 ### Testing
 
 1. Stop the server

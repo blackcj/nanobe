@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const SimpleServer = require('../server/modules/simple.server');
-const app = new SimpleServer();
+const Nanobe = require('..');
+const app = new Nanobe();
 const server = app.server;
 const chaiFiles = require('chai-files');
 const expect = chai.expect;
@@ -17,7 +17,7 @@ chai.use(chaiHttp);
 describe('test main server file', function () {
 
     before(() => {
-        app.setStaticFolder('server/public');
+        app.setStaticFolder('example/public');
         app.use('/color', colorRouter);
         app.listen(PORT);
     });
@@ -28,7 +28,7 @@ describe('test main server file', function () {
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res).to.have.header('content-type', 'text/javascript');
-                expect(file('server/public/scripts/test.js')).to.equal(res.text);
+                expect(file('example/public/scripts/test.js')).to.equal(res.text);
                 done();
             });
     });
@@ -38,7 +38,7 @@ describe('test main server file', function () {
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res).to.have.header('content-type', 'text/html');
-                expect(file('server/public/index.html')).to.equal(res.text);
+                expect(file('example/public/index.html')).to.equal(res.text);
                 done();
             });
     });
@@ -50,7 +50,7 @@ describe('test main server file', function () {
             .end((err, res) => {
                 expect(res).to.have.header('content-type', 'application/json');
                 res.should.have.status(200);
-                expect(res.body[0]).to.equal('blue');
+                expect(res.body[0]).to.equal('Yellow');
                 done();
             });
     });
@@ -58,12 +58,12 @@ describe('test main server file', function () {
         chai.request(server)
             .post('/color')
             .set('content-type', 'application/json')
-            .send({ color: 'purple' })
+            .send({ color: 'green' })
             .end((err, res) => {
                 res.should.have.status(201);
                 expect(res).to.have.header('content-type', 'application/json');
                 expect(res.body.message).to.equal('Success');
-                expect(res.body.data.color).to.equal('purple');
+                expect(res.body.data.color).to.equal('green');
                 done();
             });
     });
@@ -108,12 +108,12 @@ describe('test main server file', function () {
                 done();
             });
     });
-    it('should NOT return server/server.js', function (done) {
+    it('should NOT return example/server.js', function (done) {
         chai.request(server)
-            .get('/../server/server.js')
+            .get('/../example/server.js')
             .end((err, res) => {
                 res.should.have.status(404);
-                expect(file('server/server.js')).to.not.equal(res.text);
+                expect(file('example/server.js')).to.not.equal(res.text);
                 done();
             });
     });
