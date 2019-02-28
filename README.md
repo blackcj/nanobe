@@ -1,15 +1,15 @@
-# Vanilla Node.js Server
+# Nanobe
 
-Node modules tend to be a black hole. This is a bare-bones Node.js server with routing that doesn't require any node modules. It first looks for static files and then looks at routes. If nothing is found, a 404 status is returned.
+Nanobe is a vanilla Node.js server with routing capabilities. It currently supports servering static files, routing, query parameters and post data. 
 
 ## Setup
 
+- [Mocha](https://mochajs.org/) is required as a global dependency for running tests.
 - `npm install` is required to install [Chai](https://www.chaijs.com/) for running tests.
 
 ### Testing
 
-1. Stop the server
-2. `npm test`
+Run `npm test` to execute the tests.
 
 ## Features
 
