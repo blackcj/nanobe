@@ -1,6 +1,6 @@
 {
   "name": "nanobe",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "This is a bare-bones Node.js server with routing that doesn't require any node modules.",
   "repository": {
     "type": "git",
